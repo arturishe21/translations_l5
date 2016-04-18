@@ -16,7 +16,7 @@ composer update
 
 Выполняем миграцию таблиц
 ```json
-   php artisan migrate --path=packages/vis/translations/src/Migrations
+   php artisan migrate --path=vendor/vis/translations_l5/src/Migrations
 ```
 
 Публикуем config и js файлы
