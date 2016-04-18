@@ -1,0 +1,20 @@
+{
+  "name": "vis/translations_l5",
+  "description": "Translations for L5",
+  "authors": [
+    {
+      "name": "vis",
+      "email": "artur@vis-design.com"
+    }
+  ],
+  "autoload": {
+    "classmap": [
+      "src/Models",
+      "src/Http/Controllers",
+      "src/Migrations"
+    ],
+    "psr-4": {
+      "Vis\\Translations\\": "src/"
+    }
+  }
+}
