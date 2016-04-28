@@ -15,26 +15,23 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
-use Vis\Translations\GoogleTranslate;
-use Vis\Translations\Translate;
 
 class TranslateController extends Controller
 {
-    /*
-     * index page
+    /**
+     * get index page in admin
+     *
+     * @return Illuminate\Support\Facades\View
      */
     public function fetchIndex()
     {
-
         if (Input::get("search_q") && mb_strlen(Input::get("search_q")) > 1 ) {
             return $this->doSearch();
         }
 
-        $count_show = Input::get("count_show") ? Input::get("count_show"): Config::get('translations.config.show_count')[0];
+        $countShow = Input::get("count_show") ? Input::get("count_show"): Config::get('translations.config.show_count')[0];
         $allpage = Trans::orderBy('id', "desc");
-
-        $allpage = $allpage->paginate($count_show);
-
+        $allpage = $allpage->paginate($countShow);
         $breadcrumb[Config::get('translations.config.title_page')] = "";
 
         if (Request::ajax()) {
@@ -50,21 +47,29 @@ class TranslateController extends Controller
             ->with('breadcrumb', $breadcrumb)
             ->with("allPage", $allpage)
             ->with("langs", $langs)
-            ->with("count_show", $count_show);
+            ->with("count_show", $countShow);
     }
-
+    /**
+     * do search in list phrase
+     *
+     * @return Illuminate\Support\Facades\View
+     */
     public function doSearch()
     {
         $querySearch = trim(Input::get("search_q"));
         $langs = Config::get('translations.config.alt_langs');
-        $countShow = Input::get("count_show") ? Input::get("count_show"): Config::get('translations.config.show_count')[0];
+        $countShow = Input::get("count_show") ? Input::get("count_show") : Config::get('translations.config.show_count')[0];
 
         $allPage = Trans::where('phrase' , 'like', "%".$querySearch."%")
             ->orderBy("id", "desc")->paginate($countShow);
 
         return View::make("translations::part.result_search", compact("allPage", "langs"));
     }
-
+    /**
+     * get popup create new phrase
+     *
+     * @return Illuminate\Support\Facades\View
+     */
     public function fetchCreate()
     {
         $langs = Config::get('translations.config.alt_langs');
@@ -72,6 +77,11 @@ class TranslateController extends Controller
         return View::make('translations::part.form_trans', compact("langs"));
     }
 
+    /**
+     * do create new translation
+     *
+     * @return json Response
+     */
     public function doSaveTranslate()
     {
         parse_str(Input::get('data'), $data);
@@ -86,7 +96,7 @@ class TranslateController extends Controller
             );
         }
 
-        $model = new  Trans;
+        $model = new Trans;
         $model->phrase = strip_tags(str_replace('"', '', trim($data['phrase'])));
         $model->save();
 
@@ -112,6 +122,11 @@ class TranslateController extends Controller
         );
     }
 
+    /**
+     * delete phrase
+     *
+     * @return json Response
+     */
     public function doDelelePhrase()
     {
         $id_record = Input::get("id");
@@ -122,6 +137,11 @@ class TranslateController extends Controller
         return Response::json(array('status' => 'ok'));
     }
 
+    /**
+     * save phrase
+     *
+     * @return void
+     */
     public function doSavePhrase()
     {
         $lang = Input::get("name");

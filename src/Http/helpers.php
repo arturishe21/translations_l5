@@ -3,12 +3,13 @@ use Vis\Translations\Trans;
 
 //get translate
 function __($phrase, array $replacePhrase = []) {
-    $this_lang = Lang::locale();
-
+    $thisLang = Lang::locale();
     $array_translate =  Trans::fillCacheTrans();
 
-    if (isset($array_translate[$phrase][$this_lang])) {
-        $phrase = $array_translate[$phrase][$this_lang];
+    if (isset($array_translate[$phrase][$thisLang])) {
+        $phrase = $array_translate[$phrase][$thisLang];
+    } else {
+        $phrase = Trans::generateTranslation($phrase, $thisLang);
     }
 
     if (count($replacePhrase)) {
@@ -18,9 +19,9 @@ function __($phrase, array $replacePhrase = []) {
     return $phrase;
 }
 
-  function cmp($a, $b) {
-        if ($a == $b) {
-            return 0;
-        }
-        return ( strlen($a) < strlen($b)) ? -1 : 1;
+function cmp($a, $b) {
+    if ($a == $b) {
+        return 0;
     }
+    return ( strlen($a) < strlen($b)) ? -1 : 1;
+}
