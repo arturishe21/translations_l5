@@ -59,7 +59,7 @@ class Trans extends Model {
                         $lang = str_replace ("ua", "uk", $lang);
                         $langsDef = str_replace ("ua", "uk", $langsDef);
 
-                        $translator = new Translator(Config::get ('builder::translate_cms.api_yandex_key'));
+                        $translator = new Translator(Config::get ('builder.translate_cms.api_yandex_key'));
                         $translation = $translator->translate ($phrase, $langsDef . '-' . $lang);
                         $lang = str_replace ("uk", "ua", $lang);
 
