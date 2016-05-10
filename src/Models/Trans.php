@@ -51,8 +51,8 @@ class Trans extends Model {
 
                 try {
 
-                    $langsDef = Config::get ('translations::config.def_locale');
-                    $langsAll = Config::get ('translations::config.alt_langs');
+                    $langsDef = Config::get ('translations.config.def_locale');
+                    $langsAll = Config::get ('translations.config.alt_langs');
 
                     foreach ($langsAll as $lang) {
 
