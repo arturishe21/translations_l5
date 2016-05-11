@@ -11,7 +11,7 @@ composer update
 
 Добавляем в app.php
 ```php
-  'Vis\Translations\TranslationsServiceProvider',
+  Vis\Translations\TranslationServiceProvider::class,
 ```
 
 Выполняем миграцию таблиц
