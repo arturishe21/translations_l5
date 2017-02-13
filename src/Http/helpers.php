@@ -3,7 +3,15 @@ use Vis\Translations\Trans;
 
 //get translate
 if (!function_exists('__')) {
-    function __ ($phrase, array $replacePhrase = [])
+    function __($phrase, array $replacePhrase = [])
+    {
+        return __t($phrase, $replacePhrase);
+    }
+}
+
+//for laravel 5.4
+if (!function_exists('__t')) {
+    function __t ($phrase, array $replacePhrase = [])
     {
         $thisLang = Lang::locale ();
         $array_translate = Trans::fillCacheTrans ();

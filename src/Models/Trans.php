@@ -142,6 +142,7 @@ class Trans extends Model {
 
         $arrayTranslate = array();
         foreach ($translationsGet as $el) {
+            $el = (array) $el;
             $arrayTranslate[$el['phrase']][$el['lang']]= $el['translate'];
         }
 
