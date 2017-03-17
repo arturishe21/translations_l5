@@ -38,27 +38,31 @@ class GenerateTranslateTable extends Command
             foreach ($fields as $field) {
                 if (Schema::hasColumn($table, $field)) {
 
-                    $phrases = DB::table($table)->select([$field, 'id'])->get();
+                    $phrases = DB::table($table)->get();
 
                     $this->createFieldIfNotExist($table, $field, $languages);
 
                     foreach ($phrases as $phrase) {
+                        $phrase = (array) $phrase;
                         $valueField = $phrase[$field];
 
                         if ($valueField) {
                             foreach ($languages as $lang) {
                                 $newField = $field . "_" . $lang;
+                                if (!$phrase[$newField]) {
+                                    $lang = str_replace ("ua", "uk", $lang);
+                                    $defaultLanguage = str_replace ("ua", "uk", $defaultLanguage);
 
-                                $lang = str_replace ("ua", "uk", $lang);
-                                $defaultLanguage = str_replace ("ua", "uk", $defaultLanguage);
+                                    $translation = $translator->translate ($valueField, $defaultLanguage . '-' . $lang);
 
-                                $translation = $translator->translate ($valueField, $defaultLanguage . '-' . $lang);
-
-                                if (isset($translation->getResult ()[0])) {
-                                    DB::table($table)
-                                        ->where('id', $phrase['id'])
-                                        ->update([$newField => $translation->getResult ()[0]]);
+                                    if (isset($translation->getResult ()[0])) {
+                                        DB::table($table)
+                                            ->where('id', $phrase['id'])
+                                            ->update([$newField => $translation->getResult ()[0]]);
+                                    }
+                                    $this->info($lang. ' -> ' . $translation->getResult ()[0]);
                                 }
+
                             }
                         }
                     }
