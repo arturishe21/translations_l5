@@ -21,7 +21,9 @@ class ComposerStaticInit58ba3e41cd7d7b48abef0af11c556b39
     );
 
     public static $classMap = array (
-        'Vis\\Translations\\CreateTranslationsTable' => __DIR__ . '/../..' . '/src/Migrations/CreateTranslationsTable.php',
+        'CreateTranslationsTable' => __DIR__ . '/../..' . '/src/Migrations/2016_04_18_132921_create_translations_table.php',
+        'Vis\\Translations\\GenerateTranslate' => __DIR__ . '/../..' . '/src/Console/GenerateTranslate.php',
+        'Vis\\Translations\\GenerateTranslateTable' => __DIR__ . '/../..' . '/src/Console/GenerateTranslateTable.php',
         'Vis\\Translations\\Trans' => __DIR__ . '/../..' . '/src/Models/Trans.php',
         'Vis\\Translations\\Translate' => __DIR__ . '/../..' . '/src/Models/Translate.php',
         'Vis\\Translations\\TranslateController' => __DIR__ . '/../..' . '/src/Http/Controllers/TranslateController.php',

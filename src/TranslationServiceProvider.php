@@ -58,6 +58,16 @@ class TranslationServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton('command.translations.generate', function ($app) {
+            return new GenerateTranslate();
+        });
+
+        $this->app->singleton('command.translations.tables', function ($app) {
+            return new GenerateTranslateTable();
+        });
+
+        $this->commands('command.translations.generate');
+        $this->commands('command.translations.tables');
     }
 
     public function provides()

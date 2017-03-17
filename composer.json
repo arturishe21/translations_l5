@@ -10,6 +10,7 @@
   "autoload": {
     "classmap": [
       "src/Models",
+      "src/Console",
       "src/Http/Controllers",
       "src/Migrations"
     ],
