@@ -45,3 +45,17 @@ composer update
 ```php
  	{{__t('привет')}}
 ```
+
+Генерация переводов
+```php
+ 	php artisan translate:generate
+```
+
+Генерация переводов и создания полей переводов в таблицах
+```php
+ 	php artisan translate:table {tables} {fields}
+```
+где {tables} - таблицы, например: user,news
+и {fields} - поля в таблицы, например title,description
+
+
