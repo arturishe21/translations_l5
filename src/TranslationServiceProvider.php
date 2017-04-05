@@ -3,7 +3,6 @@
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
-use Symfony\Component\Finder\Finder;
 
 class TranslationServiceProvider extends ServiceProvider
 {

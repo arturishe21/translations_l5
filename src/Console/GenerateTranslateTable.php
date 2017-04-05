@@ -1,10 +1,7 @@
 <?php namespace Vis\Translations;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 use Yandex\Translate\Translator;
 use Illuminate\Support\Facades\Schema;
 
