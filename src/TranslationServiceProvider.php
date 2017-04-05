@@ -1,6 +1,5 @@
 <?php namespace Vis\Translations;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
@@ -68,11 +67,5 @@ class TranslationServiceProvider extends ServiceProvider
         $this->commands('command.translations.generate');
         $this->commands('command.translations.tables');
     }
-
-    public function provides()
-    {
-    }
+    
 }
-
-
-

@@ -147,5 +147,4 @@ class Trans extends Model {
 
         return $arrayTranslate;
     }
-
 }

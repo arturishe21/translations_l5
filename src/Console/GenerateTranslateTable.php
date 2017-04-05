@@ -111,5 +111,4 @@ class GenerateTranslateTable extends Command
             }
         }
     }
-
 }
