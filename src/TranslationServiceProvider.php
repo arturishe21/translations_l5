@@ -15,7 +15,7 @@ class TranslationServiceProvider extends ServiceProvider
     {
         require __DIR__ . '/../vendor/autoload.php';
         require __DIR__ . '/Http/helpers.php';
-
+ 
         $this->setupRoutes($this->app->router);
         $this->loadViewsFrom(realpath(__DIR__ . '/resources/views'), 'translations');
 
@@ -67,5 +67,4 @@ class TranslationServiceProvider extends ServiceProvider
         $this->commands('command.translations.generate');
         $this->commands('command.translations.tables');
     }
-    
 }
