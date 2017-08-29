@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Cache;
 
 class TranslateController extends Controller
 {
@@ -158,5 +159,16 @@ class TranslateController extends Controller
         }
 
         Trans::reCacheTrans();
+    }
+
+    public function getJs($lang)
+    {
+        \Debugbar::disable();
+
+        $data = Trans::fillCacheTrans ();
+
+        return response()
+            ->view('translations::js', compact ('data', 'lang'), 200)
+            ->header('Content-Type', 'text/javascript');;
     }
 }

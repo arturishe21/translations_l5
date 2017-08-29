@@ -1,5 +1,7 @@
 <?php
 
+
+Route::get('/js/translate_phrases_{lang}.js', 'Vis\Translations\TranslateController@getJs')->name('translate_js');
 Route::group (['middleware' => ['web']], function () {
     
     Route::group (
