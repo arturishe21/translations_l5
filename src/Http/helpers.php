@@ -13,6 +13,8 @@ if (!function_exists('__')) {
 if (!function_exists('__t')) {
     function __t ($phrase, array $replacePhrase = [])
     {
+        if (env('APP_ENV') == 'testing') return $phrase;
+
         $thisLang = Lang::locale ();
         $arrayTranslate = Trans::fillCacheTrans ();
 
