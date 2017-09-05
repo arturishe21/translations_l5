@@ -16,7 +16,7 @@ if (!function_exists('__t')) {
         if (env('APP_ENV') == 'testing') return $phrase;
 
         $thisLang = Lang::locale ();
-        $arrayTranslate = Trans::fillCacheTrans ();
+        $arrayTranslate = app('arrayTranslate');
 
         if (is_array ($arrayTranslate) && array_key_exists($phrase, $arrayTranslate) && isset($arrayTranslate[$phrase][$thisLang])) {
             $phrase = $arrayTranslate[$phrase][$thisLang];

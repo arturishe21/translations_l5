@@ -66,5 +66,10 @@ class TranslationServiceProvider extends ServiceProvider
 
         $this->commands('command.translations.generate');
         $this->commands('command.translations.tables');
+
+        \App::singleton('arrayTranslate', function() {
+            return Trans::fillCacheTrans ();
+        });
+
     }
 }
