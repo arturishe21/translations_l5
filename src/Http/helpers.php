@@ -21,9 +21,7 @@ if (!function_exists('__t')) {
         if (is_array ($arrayTranslate) && array_key_exists($phrase, $arrayTranslate) && isset($arrayTranslate[$phrase][$thisLang])) {
             $phrase = $arrayTranslate[$phrase][$thisLang];
         } else {
-            echo $phrase;
             $phrase = Trans::generateTranslation ($phrase, $thisLang);
-
         }
 
         if (count ($replacePhrase)) {
