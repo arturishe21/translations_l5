@@ -1,20 +1,22 @@
-<?php namespace Vis\Translations;
+<?php
+
+namespace Vis\Translations;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Yandex\Translate\Translator;
 
-class Trans extends Model {
-
+class Trans extends Model
+{
     protected $table = 'translations_phrases';
 
-    public static $rules = array(
-        'phrase' => 'required|unique:translations_phrases'
-    );
+    public static $rules = [
+        'phrase' => 'required|unique:translations_phrases',
+    ];
 
-    protected $fillable = array('phrase');
+    protected $fillable = ['phrase'];
 
     public $timestamps = false;
 
@@ -33,7 +35,7 @@ class Trans extends Model {
     }
 
     /**
-     * auto generate translation for function __() if empty
+     * auto generate translation for function __() if empty.
      *
      * @param string $phrase
      * @param strign $thisLang
@@ -43,58 +45,52 @@ class Trans extends Model {
     public static function generateTranslation($phrase, $thisLang)
     {
         if ($phrase && $thisLang) {
-
-            $checkPresentPhrase = self::where("phrase", "like", $phrase)->first();
+            $checkPresentPhrase = self::where('phrase', 'like', $phrase)->first();
             if (!isset($checkPresentPhrase->id)) {
-                $newPhrase = self::create (["phrase" => $phrase]);
+                $newPhrase = self::create(['phrase' => $phrase]);
 
                 try {
-
-                    $langsDef = Config::get ('translations.config.def_locale');
-                    $langsAll = Config::get ('translations.config.alt_langs');
+                    $langsDef = Config::get('translations.config.def_locale');
+                    $langsAll = Config::get('translations.config.alt_langs');
 
                     foreach ($langsAll as $lang) {
+                        $lang = str_replace('ua', 'uk', $lang);
+                        $langsDef = str_replace('ua', 'uk', $langsDef);
 
-                        $lang = str_replace ("ua", "uk", $lang);
-                        $langsDef = str_replace ("ua", "uk", $langsDef);
+                        $translator = new Translator(Config::get('builder.translate_cms.api_yandex_key'));
+                        $translation = $translator->translate($phrase, $langsDef.'-'.$lang);
+                        $lang = str_replace('uk', 'ua', $lang);
 
-                        $translator = new Translator(Config::get ('builder.translate_cms.api_yandex_key'));
-                        $translation = $translator->translate ($phrase, $langsDef . '-' . $lang);
-                        $lang = str_replace ("uk", "ua", $lang);
-
-                        if (isset($translation->getResult ()[0])) {
-                            Translate::create (
+                        if (isset($translation->getResult()[0])) {
+                            Translate::create(
                                 [
-                                    "id_translations_phrase" => $newPhrase->id,
-                                    "lang" => $lang,
-                                    "translate" => $translation->getResult ()[0],
+                                    'id_translations_phrase' => $newPhrase->id,
+                                    'lang'                   => $lang,
+                                    'translate'              => $translation->getResult()[0],
                                 ]
                             );
-
                         } else {
-                            return "error.No get results";
+                            return 'error.No get results';
                         }
                     }
-
                 } catch (Yandex\Translate\Exception $e) {
-                    return $e->getMessage ();
+                    return $e->getMessage();
                     // handle exception
                 }
-                self::reCacheTrans ();
-                $arrayTranslate = Trans::fillCacheTrans ();
+                self::reCacheTrans();
+                $arrayTranslate = self::fillCacheTrans();
 
                 if (isset($arrayTranslate[$phrase][$thisLang])) {
                     $phraseReturn = $arrayTranslate[$phrase][$thisLang];
                 } else {
-                    $phraseReturn = "error translation";
+                    $phraseReturn = 'error translation';
                 }
 
                 return $phraseReturn;
             } else {
-                $translatePhrase = Translate::where("id_translations_phrase", $checkPresentPhrase->id)
-                    ->where("lang", "like", $thisLang)->first();
-                if (isset($translatePhrase->translate))  {
-
+                $translatePhrase = Translate::where('id_translations_phrase', $checkPresentPhrase->id)
+                    ->where('lang', 'like', $thisLang)->first();
+                if (isset($translatePhrase->translate)) {
                     return $translatePhrase->translate;
                 }
             }
@@ -102,7 +98,7 @@ class Trans extends Model {
     }
 
     /**
-     * filling cache translate
+     * filling cache translate.
      *
      * @return array
      */
@@ -124,25 +120,25 @@ class Trans extends Model {
      */
     public static function reCacheTrans()
     {
-        Cache::forget("translations");
+        Cache::forget('translations');
         self::fillCacheTrans();
     }
 
     /**
-     * get array all phrase translation
+     * get array all phrase translation.
      *
      * @return array
      */
     private static function getArrayTranslation()
     {
-        $translationsGet = DB::table("translations_phrases")
+        $translationsGet = DB::table('translations_phrases')
             ->leftJoin('translations', 'translations.id_translations_phrase', '=', 'translations_phrases.id')
-            ->get(array("translate", "lang", "phrase"));
+            ->get(['translate', 'lang', 'phrase']);
 
-        $arrayTranslate = array();
+        $arrayTranslate = [];
         foreach ($translationsGet as $el) {
             $el = (array) $el;
-            $arrayTranslate[$el['phrase']][$el['lang']]= $el['translate'];
+            $arrayTranslate[$el['phrase']][$el['lang']] = $el['translate'];
         }
 
         return $arrayTranslate;
