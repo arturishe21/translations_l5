@@ -3,9 +3,9 @@
 namespace Vis\Translations;
 
 use Illuminate\Console\Command;
+use Yandex\Translate\Translator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Yandex\Translate\Translator;
 
 class GenerateTranslateTable extends Command
 {
@@ -46,7 +46,7 @@ class GenerateTranslateTable extends Command
                         if ($valueField) {
                             foreach ($languages as $lang) {
                                 $newField = $field.'_'.$lang;
-                                if (!$phrase[$newField]) {
+                                if (! $phrase[$newField]) {
                                     $lang = str_replace('ua', 'uk', $lang);
                                     $defaultLanguage = str_replace('ua', 'uk', $defaultLanguage);
 
@@ -76,7 +76,7 @@ class GenerateTranslateTable extends Command
         foreach ($languages as $lang) {
             $newField = $field.'_'.$lang;
 
-            if (!Schema::hasColumn($table, $newField)) {
+            if (! Schema::hasColumn($table, $newField)) {
                 $this->info($field.'_'.$lang);
 
                 $typeField = $this->getTypeField($table, $field);

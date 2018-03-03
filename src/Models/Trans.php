@@ -2,11 +2,11 @@
 
 namespace Vis\Translations;
 
-use Illuminate\Database\Eloquent\Model;
+use Yandex\Translate\Translator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\DB;
-use Yandex\Translate\Translator;
+use Illuminate\Database\Eloquent\Model;
 
 class Trans extends Model
 {
@@ -46,7 +46,7 @@ class Trans extends Model
     {
         if ($phrase && $thisLang) {
             $checkPresentPhrase = self::where('phrase', 'like', $phrase)->first();
-            if (!isset($checkPresentPhrase->id)) {
+            if (! isset($checkPresentPhrase->id)) {
                 $newPhrase = self::create(['phrase' => $phrase]);
 
                 try {
