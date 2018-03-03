@@ -1,11 +1,12 @@
-<?php namespace Vis\Translations;
+<?php
+
+namespace Vis\Translations;
 
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
 class TranslationServiceProvider extends ServiceProvider
 {
-
     /**
      * Bootstrap the application services.
      *
@@ -13,21 +14,21 @@ class TranslationServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        require __DIR__ . '/../vendor/autoload.php';
-        require __DIR__ . '/Http/helpers.php';
- 
+        require __DIR__.'/../vendor/autoload.php';
+        require __DIR__.'/Http/helpers.php';
+
         $this->setupRoutes($this->app->router);
-        $this->loadViewsFrom(realpath(__DIR__ . '/resources/views'), 'translations');
+        $this->loadViewsFrom(realpath(__DIR__.'/resources/views'), 'translations');
 
         $this->publishes([
             __DIR__
-            . '/published' => public_path('packages/vis/translations'),
-            __DIR__ . '/config' => config_path('translations/')
+            .'/published'     => public_path('packages/vis/translations'),
+            __DIR__.'/config' => config_path('translations/'),
         ], 'translations');
 
         $this->publishes([
             __DIR__
-            . '/published' => public_path('packages/vis/translations')
+            .'/published' => public_path('packages/vis/translations'),
         ], 'public');
 
         $this->publishes([
@@ -38,14 +39,14 @@ class TranslationServiceProvider extends ServiceProvider
     /**
      * Define the routes for the application.
      *
-     * @param  \Illuminate\Routing\Router $router
+     * @param \Illuminate\Routing\Router $router
      *
      * @return void
      */
     public function setupRoutes(Router $router)
     {
         if (!$this->app->routesAreCached()) {
-            require __DIR__ . '/Http/routers.php';
+            require __DIR__.'/Http/routers.php';
         }
     }
 
@@ -67,9 +68,8 @@ class TranslationServiceProvider extends ServiceProvider
         $this->commands('command.translations.generate');
         $this->commands('command.translations.tables');
 
-        \App::singleton('arrayTranslate', function() {
-            return Trans::fillCacheTrans ();
+        \App::singleton('arrayTranslate', function () {
+            return Trans::fillCacheTrans();
         });
-
     }
 }

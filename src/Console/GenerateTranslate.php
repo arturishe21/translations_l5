@@ -1,4 +1,6 @@
-<?php namespace Vis\Translations;
+<?php
+
+namespace Vis\Translations;
 
 use Illuminate\Console\Command;
 use Yandex\Translate\Translator;
@@ -19,13 +21,11 @@ class GenerateTranslate extends Command
      */
     protected $description = 'Generate translate for phrases __() if empty ';
 
-
     /**
      * Create a new command instance.
      *
      * @return void
      */
-
     public function __construct()
     {
         parent::__construct();
@@ -39,38 +39,35 @@ class GenerateTranslate extends Command
         $this->info('Start');
         $transNoExit = true;
         $translator = new Translator(config('builder.translate_cms.api_yandex_key'));
-        
+
         foreach ($allPhrase as $phrase) {
             foreach ($languages as $lang) {
                 if (!$this->ifExistTranslate($phrase->id, $lang)) {
                     $this->info(Trans::generateTranslation($phrase->phrase, $lang));
 
-                    $lang = str_replace ("ua", "uk", $lang);
-                    $defaultLanguage = str_replace ("ua", "uk", $defaultLanguage);
+                    $lang = str_replace('ua', 'uk', $lang);
+                    $defaultLanguage = str_replace('ua', 'uk', $defaultLanguage);
 
-                    $translation = $translator->translate ($phrase->phrase, $defaultLanguage . '-' . $lang);
-                    $lang = str_replace ("uk", "ua", $lang);
+                    $translation = $translator->translate($phrase->phrase, $defaultLanguage.'-'.$lang);
+                    $lang = str_replace('uk', 'ua', $lang);
 
-                    if (isset($translation->getResult ()[0])) {
+                    if (isset($translation->getResult()[0])) {
+                        $this->info($phrase->phrase.' -- '.$lang.' -> '.$translation->getResult()[0]);
 
-                        $this->info($phrase->phrase. " -- ". $lang . ' -> ' .$translation->getResult ()[0]);
-
-                        Translate::create (
+                        Translate::create(
                             [
-                                "id_translations_phrase" => $phrase->id,
-                                "lang" => $lang,
-                                "translate" => $translation->getResult ()[0],
+                                'id_translations_phrase' => $phrase->id,
+                                'lang'                   => $lang,
+                                'translate'              => $translation->getResult()[0],
                             ]
                         );
                         $transNoExit = false;
                     }
-
                 }
-
             }
         }
 
-        Trans::reCacheTrans ();
+        Trans::reCacheTrans();
 
         if ($transNoExit) {
             $this->info('Нет фраз для перевода');

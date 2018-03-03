@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
 
 class CreateTranslationsTable extends Migration
 {
@@ -14,27 +14,26 @@ class CreateTranslationsTable extends Migration
     {
         if (!Schema::hasTable('translations_phrases')) {
             Schema::create('translations_phrases', function (Blueprint $table) {
-                    $table->engine = 'InnoDB';
+                $table->engine = 'InnoDB';
 
-                    $table->increments('id');
-                    $table->text('phrase');
-                });
+                $table->increments('id');
+                $table->text('phrase');
+            });
         }
 
         if (!Schema::hasTable('translations')) {
             Schema::create('translations', function (Blueprint $table) {
-                    $table->engine = 'InnoDB';
+                $table->engine = 'InnoDB';
 
-                    $table->increments('id');
-                    $table->integer('id_translations_phrase')->unsigned();
-                    $table->string('lang', 2);
-                    $table->text('translate');
+                $table->increments('id');
+                $table->integer('id_translations_phrase')->unsigned();
+                $table->string('lang', 2);
+                $table->text('translate');
 
-
-                    $table->index('id_translations_phrase');
-                    $table->foreign('id_translations_phrase')->references('id')->on('translations_phrases')->onDelete('cascade');
-                });
-        }        
+                $table->index('id_translations_phrase');
+                $table->foreign('id_translations_phrase')->references('id')->on('translations_phrases')->onDelete('cascade');
+            });
+        }
     }
 
     /**

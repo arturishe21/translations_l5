@@ -1,9 +1,11 @@
-<?php namespace Vis\Translations;
+<?php
+
+namespace Vis\Translations;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Yandex\Translate\Translator;
 use Illuminate\Support\Facades\Schema;
+use Yandex\Translate\Translator;
 
 class GenerateTranslateTable extends Command
 {
@@ -26,15 +28,13 @@ class GenerateTranslateTable extends Command
 
         $this->info(print_arr($languages));
 
-        $tables = explode(",", $this->argument('tables'));
-        $fields = explode(",", $this->argument('fields'));
+        $tables = explode(',', $this->argument('tables'));
+        $fields = explode(',', $this->argument('fields'));
         $translator = new Translator(config('builder.translate_cms.api_yandex_key'));
-        $this->info("Start");
+        $this->info('Start');
         foreach ($tables as $table) {
-
             foreach ($fields as $field) {
                 if (Schema::hasColumn($table, $field)) {
-
                     $phrases = DB::table($table)->get();
 
                     $this->createFieldIfNotExist($table, $field, $languages);
@@ -45,67 +45,60 @@ class GenerateTranslateTable extends Command
 
                         if ($valueField) {
                             foreach ($languages as $lang) {
-                                $newField = $field . "_" . $lang;
+                                $newField = $field.'_'.$lang;
                                 if (!$phrase[$newField]) {
-                                    $lang = str_replace ("ua", "uk", $lang);
-                                    $defaultLanguage = str_replace ("ua", "uk", $defaultLanguage);
+                                    $lang = str_replace('ua', 'uk', $lang);
+                                    $defaultLanguage = str_replace('ua', 'uk', $defaultLanguage);
 
-                                    $translation = $translator->translate ($valueField, $defaultLanguage . '-' . $lang);
+                                    $translation = $translator->translate($valueField, $defaultLanguage.'-'.$lang);
 
-                                    if (isset($translation->getResult ()[0])) {
+                                    if (isset($translation->getResult()[0])) {
                                         DB::table($table)
                                             ->where('id', $phrase['id'])
-                                            ->update([$newField => $translation->getResult ()[0]]);
+                                            ->update([$newField => $translation->getResult()[0]]);
                                     }
-                                    $this->info($lang. ' -> ' . $translation->getResult ()[0]);
+                                    $this->info($lang.' -> '.$translation->getResult()[0]);
                                 }
-
                             }
                         }
                     }
-
                 } else {
-                    $this->info('Не существует поля ' . $field . ' в таблице '. $table);
+                    $this->info('Не существует поля '.$field.' в таблице '.$table);
                 }
             }
         }
 
-        $this->info("finish");
+        $this->info('finish');
     }
 
     private function createFieldIfNotExist($table, $field, $languages)
     {
         foreach ($languages as $lang) {
-
-            $newField = $field . "_" . $lang;
+            $newField = $field.'_'.$lang;
 
             if (!Schema::hasColumn($table, $newField)) {
-                $this->info($field . "_" . $lang);
+                $this->info($field.'_'.$lang);
 
                 $typeField = $this->getTypeField($table, $field);
 
                 Schema::table($table, function ($table) use ($field, $newField, $typeField) {
-
                     if ($typeField == 'text') {
                         $table->text($newField)->after($field);
                     } else {
                         $table->string($newField)->after($field);
                     }
 
-                    $this->info("Created new field " . $newField);
-
+                    $this->info('Created new field '.$newField);
                 });
             }
-
         }
     }
 
     private function getTypeField($table, $field)
     {
-        $table_info_columns = DB::select( DB::raw('SHOW COLUMNS FROM '.$table));
+        $table_info_columns = DB::select(DB::raw('SHOW COLUMNS FROM '.$table));
 
         foreach ($table_info_columns as $fields) {
-
             if ($fields['Field'] == $field) {
                 return $fields['Type'];
             }
