@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class CreateTranslationsTable extends Migration
 {
@@ -12,7 +12,7 @@ class CreateTranslationsTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('translations_phrases')) {
+        if (! Schema::hasTable('translations_phrases')) {
             Schema::create('translations_phrases', function (Blueprint $table) {
                 $table->engine = 'InnoDB';
 
@@ -21,7 +21,7 @@ class CreateTranslationsTable extends Migration
             });
         }
 
-        if (!Schema::hasTable('translations')) {
+        if (! Schema::hasTable('translations')) {
             Schema::create('translations', function (Blueprint $table) {
                 $table->engine = 'InnoDB';
 

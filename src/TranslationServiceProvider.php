@@ -45,7 +45,7 @@ class TranslationServiceProvider extends ServiceProvider
      */
     public function setupRoutes(Router $router)
     {
-        if (!$this->app->routesAreCached()) {
+        if (! $this->app->routesAreCached()) {
             require __DIR__.'/Http/routers.php';
         }
     }

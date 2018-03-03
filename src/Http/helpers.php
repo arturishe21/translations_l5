@@ -3,7 +3,7 @@
 use Vis\Translations\Trans;
 
 //get translate
-if (!function_exists('__')) {
+if (! function_exists('__')) {
     function __($phrase, array $replacePhrase = [])
     {
         return __t($phrase, $replacePhrase);
@@ -11,7 +11,7 @@ if (!function_exists('__')) {
 }
 
 //for laravel 5.4
-if (!function_exists('__t')) {
+if (! function_exists('__t')) {
     function __t($phrase, array $replacePhrase = [])
     {
         if (env('APP_ENV') == 'testing') {
@@ -35,7 +35,7 @@ if (!function_exists('__t')) {
     }
 }
 
-if (!function_exists('cmp')) {
+if (! function_exists('cmp')) {
     function cmp($a, $b)
     {
         if ($a == $b) {

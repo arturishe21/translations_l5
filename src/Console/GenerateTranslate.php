@@ -42,7 +42,7 @@ class GenerateTranslate extends Command
 
         foreach ($allPhrase as $phrase) {
             foreach ($languages as $lang) {
-                if (!$this->ifExistTranslate($phrase->id, $lang)) {
+                if (! $this->ifExistTranslate($phrase->id, $lang)) {
                     $this->info(Trans::generateTranslation($phrase->phrase, $lang));
 
                     $lang = str_replace('ua', 'uk', $lang);
