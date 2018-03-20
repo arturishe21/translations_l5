@@ -1,19 +1,8 @@
 
-В composer.json добавляем в блок require
+Подключаем 
 ```json
- "vis/translations_l5": "1.0.*"
+ сomposer require vis/translations_l5
 ```
-
-Выполняем
-```json
-composer update
-```
-
-Добавляем в app.php
-```php
-  Vis\Translations\TranslationServiceProvider::class,
-```
-
 Выполняем миграцию таблиц
 ```json
    php artisan migrate --path=vendor/vis/translations_l5/src/Migrations
