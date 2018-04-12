@@ -19,7 +19,7 @@
                 <td style="text-align: left;">
                     {{$el->phrase}}
                 </td>
-                <td>__("{{$el->phrase}}")</td>
+                <td>__t('{{$el->phrase}}')</td>
 
                 <td style="text-align: left">
                      <?php
