@@ -20,7 +20,7 @@ class TranslateController extends Controller
             return $this->doSearch();
         }
 
-        $countShow = request('count_show') ? : config('translations.config.show_count')[0];
+        $countShow = request('count_show') ?: config('translations.config.show_count')[0];
         $allpage = Trans::orderBy('id', 'desc');
         $allpage = $allpage->paginate($countShow);
 
@@ -43,7 +43,7 @@ class TranslateController extends Controller
     {
         $querySearch = trim(request('search_q'));
         $langs = config('translations.config.alt_langs');
-        $countShow = request('count_show') ?  : config('translations.config.show_count')[0];
+        $countShow = request('count_show') ?: config('translations.config.show_count')[0];
 
         $allPage = Trans::leftJoin('translations', 'translations.id_translations_phrase', '=', 'translations_phrases.id')
             ->select('translations_phrases.*')
