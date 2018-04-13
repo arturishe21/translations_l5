@@ -1,13 +1,13 @@
 <script>
-     $(".breadcrumb").html("<li><a href='/admin'>{{__cms('Главная')}}</a></li> <li>{{__cms($title)}}</li>");
-     $("title").text("{{__cms($title)}} - {{{ __cms(Config::get('builder.admin.caption')) }}}");
+     $(".breadcrumb").html("<li><a href='/admin'>{{__cms('Главная')}}</a></li> <li>{{__cms('Переводы')}}</li>");
+     $("title").text("{{__cms('Переводы')}} - {{{ __cms(config('builder.admin.caption')) }}}");
    </script>
 
 <!-- MAIN CONTENT -->
          <div class="jarviswidget jarviswidget-color-blue " id="wid-id-4" data-widget-editbutton="false" data-widget-colorbutton="false">
                         <header>
                             <span class="widget-icon"> <i class="fa  fa-file-text"></i> </span>
-                            <h2> {{__cms($title)}} </h2>
+                            <h2> {{__cms('Переводы')}} </h2>
                         </header>
                          <div class="table_center no-padding">
 

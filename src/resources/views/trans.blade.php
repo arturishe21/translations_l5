@@ -1,13 +1,13 @@
 @extends('admin::layouts.default')
 
 @section('title')
-  {{__cms($title)}}
+  {{__cms('Переводы')}}
 @stop
 
 @section('ribbon')
   <ol class="breadcrumb">
       <li><a href="/admin">{{__cms('Главная')}}</a></li>
-     <li><a>{{__cms($title)}}</a></li>
+     <li><a>{{__cms('Переводы')}}</a></li>
   </ol>
 @stop
 
