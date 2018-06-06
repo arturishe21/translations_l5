@@ -43,7 +43,6 @@ class TranslateController extends Controller
     {
         $querySearch = trim(request('search_q'));
         $langs = config('translations.config.alt_langs');
-        $countShow = request('count_show') ?: config('translations.config.show_count')[0];
 
         $allPage = Trans::leftJoin('translations', 'translations.id_translations_phrase', '=', 'translations_phrases.id')
             ->select('translations_phrases.*')
@@ -53,7 +52,7 @@ class TranslateController extends Controller
             })
 
             ->groupBy('translations_phrases.id')
-            ->orderBy('translations_phrases.id', 'desc')->paginate($countShow);
+            ->orderBy('translations_phrases.id', 'desc')->paginate(20);
 
         return view('translations::part.result_search', compact('allPage', 'langs'));
     }

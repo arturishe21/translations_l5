@@ -1,6 +1,6 @@
 <script>
      $(".breadcrumb").html("<li><a href='/admin'>{{__cms('Главная')}}</a></li> <li>{{__cms('Переводы')}}</li>");
-     $("title").text("{{__cms('Переводы')}} - {{{ __cms(config('builder.admin.caption')) }}}");
+     $("title").text("{{__cms('Переводы')}} - {{ __cms(config('builder.admin.caption')) }}");
    </script>
 
 <!-- MAIN CONTENT -->
@@ -24,27 +24,9 @@
                              </form>
                           </div>
                       </div>
-                      <div class="col-sm-6 col-xs-12 hidden-xs">
-                          <div id="dt_basic_length" class="dataTables_length">
-                              <label>
-
-                                  <select class="form-control" name="dt_basic_length" aria-controls="dt_basic">
-
-                                  @foreach(Config::get('translations.config.show_count') as $val)
-                                      <option value="{{$val}}"
-                                        @if($val==$count_show)
-                                         selected
-                                        @endif
-                                       >{{$val}}</option>
-                                  @endforeach
-                                  </select>
-                              </label>
-                          </div>
-                     </div>
                 </div>
 
                 <div class="result_table">
-
                      @include("translations::part.result_search")
                 </div>
 
