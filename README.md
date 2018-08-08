@@ -47,4 +47,8 @@
 где {tables} - таблицы, например: user,news
 и {fields} - поля в таблицы, например title,description
 
+Js перевод
+```php
+  <script src="{{route('translate_js', ['lang' => config('app.locale')])}}"></script>
+```
 
