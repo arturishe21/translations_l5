@@ -17,11 +17,11 @@
                 <div id="dt_basic_filter" class="dataTables_filter">
                     <form action="" method="get" id="search_form">
                         <label>
-                                  <span class="input-group-addon">
+                              <span class="input-group-addon">
                                   <i class="glyphicon glyphicon-search"></i>
-                                  </span>
-                            <input class="form-control" name="search_q" type="search"
-                                   value="{{ isset($search_q) ?: "" }}" aria-controls="dt_basic">
+                              </span>
+
+                            <input class="form-control" name="search_q" type="search" value="{{ isset($search_q) ?: "" }}" aria-controls="dt_basic">
                         </label>
                     </form>
                 </div>
