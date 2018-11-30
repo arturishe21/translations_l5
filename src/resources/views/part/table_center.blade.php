@@ -19,7 +19,7 @@
                                   <span class="input-group-addon">
                                   <i class="glyphicon glyphicon-search"></i>
                                   </span>
-                                  <input class="form-control" name="search_q" type="search" value="{{$search_q or ""}}" aria-controls="dt_basic">
+                                  <input class="form-control" name="search_q" type="search" value="{{$search_q ?? ""}}" aria-controls="dt_basic">
                               </label>
                              </form>
                           </div>
