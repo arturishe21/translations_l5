@@ -96,11 +96,10 @@ class TranslateController extends Controller
 
         foreach ($data as $k => $el) {
             if (in_array($k, $langs) && $el && $model->id) {
-
                 Translate::create([
                     'id_translations_phrase' => $model->id,
                     'lang' => $k,
-                    'translate' => trim($el)
+                    'translate' => trim($el),
                 ]);
             }
         }
