@@ -96,11 +96,12 @@ class TranslateController extends Controller
 
         foreach ($data as $k => $el) {
             if (in_array($k, $langs) && $el && $model->id) {
-                $model_trans = new  Translate();
-                $model_trans->translate = trim($el);
-                $model_trans->lang = $k;
-                $model_trans->id_translations_phrase = $model->id;
-                $model_trans->save();
+
+                Translate::create([
+                    'id_translations_phrase' => $model->id,
+                    'lang' => $k,
+                    'translate' => trim($el)
+                ]);
             }
         }
 
@@ -121,8 +122,7 @@ class TranslateController extends Controller
      */
     public function doDelelePhrase()
     {
-        $id_record = request('id');
-        Trans::find($id_record)->delete();
+        Trans::find(request('id'))->delete();
 
         Trans::reCacheTrans();
 
@@ -141,10 +141,10 @@ class TranslateController extends Controller
         $id = request('pk');
 
         if ($id && $phrase && $lang) {
-            $phrase_change = Translate::where('id_translations_phrase', $id)->where('lang', $lang)->first();
-            if (isset($phrase_change->id)) {
-                $phrase_change->translate = $phrase;
-                $phrase_change->save();
+            $phraseChange = Translate::where('id_translations_phrase', $id)->where('lang', $lang)->first();
+            if (isset($phraseChange->id)) {
+                $phraseChange->translate = $phrase;
+                $phraseChange->save();
             } else {
                 Translate::create(
                     [

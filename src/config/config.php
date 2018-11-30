@@ -6,7 +6,6 @@ return [
 
     //other language
     'alt_langs'  => ['Рус'=>'ru', 'Укр'=>'ua', 'Eng'=>'en'],
-    'title_page' => 'Переводы',
     'show_count' => ['20', '40', '60', '100'],
 
     'languages' => [

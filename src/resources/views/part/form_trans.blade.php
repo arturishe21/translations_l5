@@ -1,6 +1,6 @@
 
    <style>
-    .types{
+    .types {
         display: none;
     }
    </style>
@@ -24,7 +24,7 @@
                       <label class="input">
                       <input type="text"
 
-                        value="{{{ $info->phrase or "" }}}"
+                        value="{{ $info->phrase ?? ''}}"
                         name="phrase"
                         placeholder=""
                         class="dblclick-edit-input form-control input-sm unselectable">
@@ -62,7 +62,7 @@
                   <button type="button" class="btn btn-default" data-dismiss="modal"> {{__cms('Отмена')}} </button>
                 </div>
 
-                <input type="hidden" name="id" value="{{$info->id or "0"}}">
+                <input type="hidden" name="id" value="{{$info->id ?? '0'}}">
         </form>
       </div>
 
