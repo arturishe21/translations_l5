@@ -163,14 +163,14 @@ class TranslateController extends Controller
         $data = Trans::fillCacheTrans();
 
         $translates = [];
-        foreach($data as $phrase => $translate){
-            $key = trim(str_replace(array("\r\n", "\r", "\n"), '', $phrase));
-            $value = trim(isset($translate[$lang]) ?  str_replace(array("\r\n", "\r", "\n"), '', $translate[$lang]) : '');
+        foreach ($data as $phrase => $translate) {
+            $key = trim(str_replace(["\r\n", "\r", "\n"], '', $phrase));
+            $value = trim(isset($translate[$lang]) ? str_replace(["\r\n", "\r", "\n"], '', $translate[$lang]) : '');
             $translates[$key] = $value;
         }
 
         return response()
-            ->view('translations::js', compact('data', 'lang','translates'), 200)
+            ->view('translations::js', compact('data', 'lang', 'translates'), 200)
             ->header('Content-Type', 'text/javascript');
     }
 }
