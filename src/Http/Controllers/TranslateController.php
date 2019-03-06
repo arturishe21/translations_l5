@@ -160,12 +160,17 @@ class TranslateController extends Controller
 
     public function getJs($lang)
     {
-        \Debugbar::disable();
-
         $data = Trans::fillCacheTrans();
 
+        $translates = [];
+        foreach($data as $phrase => $translate){
+            $key = trim(str_replace(array("\r\n", "\r", "\n"), '', $phrase));
+            $value = trim(isset($translate[$lang]) ?  str_replace(array("\r\n", "\r", "\n"), '', $translate[$lang]) : '');
+            $translates[$key] = $value;
+        }
+
         return response()
-            ->view('translations::js', compact('data', 'lang'), 200)
+            ->view('translations::js', compact('data', 'lang','translates'), 200)
             ->header('Content-Type', 'text/javascript');
     }
 }
