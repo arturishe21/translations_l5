@@ -17,7 +17,7 @@ class CreateTranslationsTable extends Migration
                 $table->engine = 'InnoDB';
 
                 $table->increments('id');
-                $table->text('phrase');
+                $table->text('phrase')->collation('utf8_bin');
             });
         }
 

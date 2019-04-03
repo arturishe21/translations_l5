@@ -1,7 +1,7 @@
 
 Подключаем 
 ```json
- сomposer require vis/translations_l5
+ composer require vis/translations_l5
 ```
 Выполняем миграцию таблиц
 ```json
