@@ -49,50 +49,46 @@ class Trans extends Model
             if (! isset($checkPresentPhrase->id)) {
                 $newPhrase = self::create(['phrase' => $phrase]);
 
-                try {
-                    $langsDef = Config::get('translations.config.def_locale');
-                    $langsAll = Config::get('translations.config.alt_langs');
+                $langsDef = Config::get('translations.config.def_locale');
+                $langsAll = Config::get('translations.config.alt_langs');
 
-                    foreach ($langsAll as $lang) {
-                        $lang = str_replace('ua', 'uk', $lang);
-                        $langsDef = str_replace('ua', 'uk', $langsDef);
+                foreach ($langsAll as $lang) {
+                    $lang = str_replace('ua', 'uk', $lang);
+                    $langsDef = str_replace('ua', 'uk', $langsDef);
+                    $translate = $phrase;
 
-                        $translator = new Translator(Config::get('builder.translate_cms.api_yandex_key'));
-                        $translation = $translator->translate($phrase, $langsDef.'-'.$lang);
-                        $lang = str_replace('uk', 'ua', $lang);
+                    if (config('builder.translate_cms.api_yandex_key')) {
+                        try {
+                            $translator = new Translator(config('builder.translate_cms.api_yandex_key'));
+                            $translation = $translator->translate($phrase, $langsDef.'-'.$lang);
+                            $translate = $translation->getResult()[0] ?? $phrase;
 
-                        if (isset($translation->getResult()[0])) {
-                            Translate::create(
-                                [
-                                    'id_translations_phrase' => $newPhrase->id,
-                                    'lang'                   => $lang,
-                                    'translate'              => $translation->getResult()[0],
-                                ]
-                            );
-                        } else {
-                            return 'error.No get results';
+                        } catch (\Exception $e) {
+                            $translate = $phrase;
                         }
                     }
-                } catch (Yandex\Translate\Exception $e) {
-                    return $e->getMessage();
-                    // handle exception
+
+                    Translate::create(
+                        [
+                            'id_translations_phrase' => $newPhrase->id,
+                            'lang'                   => str_replace('uk', 'ua', $lang),
+                            'translate'              => $translate,
+                        ]
+                    );
+
                 }
+
                 self::reCacheTrans();
                 $arrayTranslate = self::fillCacheTrans();
 
-                if (isset($arrayTranslate[$phrase][$thisLang])) {
-                    $phraseReturn = $arrayTranslate[$phrase][$thisLang];
-                } else {
-                    $phraseReturn = 'error translation';
-                }
+                return $arrayTranslate[$phrase][$thisLang] ?? 'error translation';
+            }
 
-                return $phraseReturn;
-            } else {
-                $translatePhrase = Translate::where('id_translations_phrase', $checkPresentPhrase->id)
-                    ->where('lang', 'like', $thisLang)->first();
-                if (isset($translatePhrase->translate)) {
-                    return $translatePhrase->translate;
-                }
+            $translatePhrase = Translate::where('id_translations_phrase', $checkPresentPhrase->id)
+                ->where('lang', 'like', $thisLang)->first();
+
+            if ($translatePhrase) {
+                return $translatePhrase->translate;
             }
         }
     }
