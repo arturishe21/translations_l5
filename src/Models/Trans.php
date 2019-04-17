@@ -62,7 +62,6 @@ class Trans extends Model
                             $translator = new Translator(config('builder.translate_cms.api_yandex_key'));
                             $translation = $translator->translate($phrase, $langsDef.'-'.$lang);
                             $translate = $translation->getResult()[0] ?? $phrase;
-
                         } catch (\Exception $e) {
                             $translate = $phrase;
                         }
@@ -75,7 +74,6 @@ class Trans extends Model
                             'translate'              => $translate,
                         ]
                     );
-
                 }
 
                 self::reCacheTrans();
