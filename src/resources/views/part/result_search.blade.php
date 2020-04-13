@@ -25,10 +25,10 @@
                      <?php
                      $trans = $el->getTrans();
                      ?>
-                      @foreach($langs as $lang)
+                      @foreach($trans as $lang => $translate)
                         <p>
                              <img class="flag flag-{{$lang}}" style="margin-right: 5px">
-                             <a data-type="textarea" class="lang_change" data-pk="{{$el->id}}"  data-name="{{$lang}}" data-original-title="{{__cms('Язык')}}: {{$lang}}">{{$trans[$lang] ?? ""}}</a>
+                             <a data-type="textarea" class="lang_change" data-pk="{{$el->id}}"  data-name="{{$lang}}" data-original-title="{{__cms('Язык')}}: {{$lang}}">{{$translate}}</a>
                          </p>
                       @endforeach
                 </td>
@@ -50,9 +50,7 @@
                   </td>
              </tr>
         @endforelse
-
-
-            </tbody>
+ </tbody>
 </table>
 
       <div class="dt-toolbar-footer">

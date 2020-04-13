@@ -23,7 +23,6 @@ class TranslationServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__
             .'/published'     => public_path('packages/vis/translations'),
-            __DIR__.'/config' => config_path('translations/'),
         ], 'translations');
 
         $this->publishes([

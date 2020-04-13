@@ -46,20 +46,20 @@ class Trans extends Model
     {
         if ($phrase && $thisLang) {
             $checkPresentPhrase = self::where('phrase', 'like', $phrase)->first();
-            if (! isset($checkPresentPhrase->id)) {
+            if (! $checkPresentPhrase) {
                 $newPhrase = self::create(['phrase' => $phrase]);
 
-                $langsDef = Config::get('translations.config.def_locale');
-                $langsAll = Config::get('translations.config.alt_langs');
+                $langsDef = config('app.locale');
+                $langsAll = array_keys(config('builder.translations.config.languages'));
 
                 foreach ($langsAll as $lang) {
                     $lang = str_replace('ua', 'uk', $lang);
                     $langsDef = str_replace('ua', 'uk', $langsDef);
                     $translate = $phrase;
 
-                    if (config('builder.translate_cms.api_yandex_key')) {
+                    if (config('builder.translations.cms.api_yandex_key')) {
                         try {
-                            $translator = new Translator(config('builder.translate_cms.api_yandex_key'));
+                            $translator = new Translator(config('builder.translations.cms.api_yandex_key'));
                             $translation = $translator->translate($phrase, $langsDef.'-'.$lang);
                             $translate = $translation->getResult()[0] ?? $phrase;
                         } catch (\Exception $e) {
