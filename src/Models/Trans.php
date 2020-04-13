@@ -2,11 +2,11 @@
 
 namespace Vis\Translations;
 
-use Yandex\Translate\Translator;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Yandex\Translate\Translator;
 
 class Trans extends Model
 {
@@ -108,7 +108,7 @@ class Trans extends Model
         return $arrayTranslate;
     }
 
-    /** recache translate
+    /** recache translate.
      *
      * @return void
      */
