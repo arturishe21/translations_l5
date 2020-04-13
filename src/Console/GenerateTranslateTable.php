@@ -3,9 +3,9 @@
 namespace Vis\Translations;
 
 use Illuminate\Console\Command;
-use Yandex\Translate\Translator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Yandex\Translate\Translator;
 
 class GenerateTranslateTable extends Command
 {
