@@ -35,3 +35,9 @@ Route::group(['middleware' => ['web']], function () {
             }
         });
 });
+
+Route::group(
+    ['prefix' => LaravelLocalization::setLocale()],
+    function () {
+        Route::get('auto_translate', 'Vis\Translations\TranslateController@doTranslatePhraseInJs');
+});

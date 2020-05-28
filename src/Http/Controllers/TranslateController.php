@@ -173,4 +173,9 @@ class TranslateController extends Controller
             ->view('translations::js', compact('data', 'lang', 'translates'), 200)
             ->header('Content-Type', 'text/javascript');
     }
+
+    public function doTranslatePhraseInJs()
+    {
+        return __t(request('phrase'));
+    }
 }
