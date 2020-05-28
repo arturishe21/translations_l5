@@ -3,6 +3,7 @@
 
 Route::get('/js/translate_phrases_{lang}.js', 'Vis\Translations\TranslateController@getJs')->name('translate_js');
 Route::group(['middleware' => ['web']], function () {
+
     Route::group(
         ['prefix' => 'admin', 'middleware' => 'auth.admin'],
         function () {
@@ -35,3 +36,9 @@ Route::group(['middleware' => ['web']], function () {
             }
         });
 });
+
+Route::group(
+    ['prefix' => LaravelLocalization::setLocale()],
+    function () {
+        Route::get('auto_translate', 'Vis\Translations\TranslateController@doTranslatePhraseInJs');
+    });
