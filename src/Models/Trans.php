@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
-use Yandex\Translate\Translator;
+use Vis\Builder\Libs\GoogleTranslateForFree;
 
 class Trans extends Model
 {
@@ -57,14 +57,10 @@ class Trans extends Model
                     $langsDef = str_replace('ua', 'uk', $langsDef);
                     $translate = $phrase;
 
-                    if (config('builder.translations.cms.api_yandex_key')) {
-                        try {
-                            $translator = new Translator(config('builder.translations.cms.api_yandex_key'));
-                            $translation = $translator->translate($phrase, $langsDef.'-'.$lang);
-                            $translate = $translation->getResult()[0] ?? $phrase;
-                        } catch (\Exception $e) {
-                            $translate = $phrase;
-                        }
+                    try {
+                        $translate = (new GoogleTranslateForFree())->translate($langsDef, $lang, $phrase, 2);
+                    } catch (\Exception $e) {
+                        $translate = $phrase;
                     }
 
                     Translate::create(
