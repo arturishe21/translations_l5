@@ -6,7 +6,6 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
-use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class TranslateController extends Controller
 {
@@ -186,15 +185,14 @@ class TranslateController extends Controller
 
     public function createdJsFile()
     {
-        if (!is_dir(public_path('/js'))) {
+        if (! is_dir(public_path('/js'))) {
             mkdir(public_path('/js'), 0755, true);
         }
 
         foreach (config('translations.config.languages') as $lang) {
-
             $content = $this->getJs($lang['caption'], true);
 
-            echo route( 'auto_translate').'<br>';
+            echo route('auto_translate').'<br>';
 
             file_put_contents(public_path('/js/translation_'.$lang['caption'].'.js'), $content);
         }

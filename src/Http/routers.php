@@ -32,8 +32,8 @@ Route::group(['middleware' => ['web']], function () {
                     'uses' => 'Vis\Translations\TranslateController@doDelelePhrase', ]
                     );
                 Route::post('translations/create_js_file', [
-                        'as'   => 'create_js_file',
-                        'uses' => 'Vis\Translations\TranslateController@createdJsFile', ]
+                    'as'   => 'create_js_file',
+                    'uses' => 'Vis\Translations\TranslateController@createdJsFile', ]
                 );
             }
         });
