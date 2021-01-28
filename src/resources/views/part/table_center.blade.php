@@ -24,6 +24,11 @@
                              </form>
                           </div>
                       </div>
+                      <div class="col-xs-12 col-sm-6">
+                          <a class="btn btn-sm btn-success" style="float: right" onclick="Trans.createJsFile();">
+                              {{__cms("Создать js файл с переводами")}}
+                          </a>
+                      </div>
                 </div>
 
                 <div class="result_table">

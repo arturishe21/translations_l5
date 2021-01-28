@@ -89,9 +89,15 @@ var Trans = {
             name: 'username',
             title: 'Enter username'
         });
-    }
+    },
 
-}
+    createJsFile : function () {
+        $.post("/admin/translations/create_js_file", {},
+            function(data){
+
+            });
+    },
+};
 
 $(document).on("change", '[name=dt_basic_length]', function(){
     Trans.show_list("1", $(this).val());
@@ -107,9 +113,9 @@ $(document).on("keyup", '[name=search_q]', function(){
                 $(".result_table").html(data);
                 $(".load_page").hide();
             }).fail(function(xhr, ajaxOptions, thrownError) {
-                var errorResult = jQuery.parseJSON(xhr.responseText);
-                TableBuilder.showErrorNotification(errorResult.message);
-            });
+            var errorResult = jQuery.parseJSON(xhr.responseText);
+            TableBuilder.showErrorNotification(errorResult.message);
+        });
     }
 });
 

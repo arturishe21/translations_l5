@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 class TranslateController extends Controller
 {
@@ -158,7 +159,7 @@ class TranslateController extends Controller
         Trans::reCacheTrans();
     }
 
-    public function getJs($lang)
+    public function getJs($lang, $withoutHeader = false)
     {
         $data = Trans::fillCacheTrans();
 
@@ -169,6 +170,10 @@ class TranslateController extends Controller
             $translates[$key] = $value;
         }
 
+        if ($withoutHeader) {
+            return view('translations::js', compact('data', 'lang', 'translates'))->render();
+        }
+
         return response()
             ->view('translations::js', compact('data', 'lang', 'translates'), 200)
             ->header('Content-Type', 'text/javascript');
@@ -177,5 +182,21 @@ class TranslateController extends Controller
     public function doTranslatePhraseInJs()
     {
         return __t(request('phrase'));
+    }
+
+    public function createdJsFile()
+    {
+        if (!is_dir(public_path('/js'))) {
+            mkdir(public_path('/js'), 0755, true);
+        }
+
+        foreach (config('translations.config.languages') as $lang) {
+
+            $content = $this->getJs($lang['caption'], true);
+
+            echo route( 'auto_translate').'<br>';
+
+            file_put_contents(public_path('/js/translation_'.$lang['caption'].'.js'), $content);
+        }
     }
 }

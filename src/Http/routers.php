@@ -31,12 +31,17 @@ Route::group(['middleware' => ['web']], function () {
                     'as'   => 'del_record',
                     'uses' => 'Vis\Translations\TranslateController@doDelelePhrase', ]
                     );
+                Route::post('translations/create_js_file', [
+                        'as'   => 'create_js_file',
+                        'uses' => 'Vis\Translations\TranslateController@createdJsFile', ]
+                );
             }
         });
 });
 
 Route::group(
-    ['prefix' => LaravelLocalization::setLocale()],
+    ['prefix' => LaravelLocalization::setLocale(), 'middleware' => 'web'],
     function () {
-        Route::get('auto_translate', 'Vis\Translations\TranslateController@doTranslatePhraseInJs');
+        Route::post('auto_translate', 'Vis\Translations\TranslateController@doTranslatePhraseInJs')
+            ->name('auto_translate');
     });
