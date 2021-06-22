@@ -19,7 +19,7 @@ class GenerateTranslateTable extends Command
         parent::__construct();
     }
 
-    public function fire()
+    public function handle()
     {
         $languages = array_values(config('translations.config.alt_langs'));
         $defaultLanguage = config('translations.config.def_locale');

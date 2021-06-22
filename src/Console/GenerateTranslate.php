@@ -31,7 +31,7 @@ class GenerateTranslate extends Command
         parent::__construct();
     }
 
-    public function fire()
+    public function handle()
     {
         $allPhrase = Trans::get();
         $languages = config('translations.config.alt_langs');
